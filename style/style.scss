@@ -1,3 +1,38 @@
 body{
     font-family: 'Playfair Display', serif;
 }
+.product-list{
+    list-style: none;
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 5%;
+    .product-item{
+        margin-bottom: 80px;
+        padding: 50px;
+        width: 250px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.315);
+        img{
+            width: 150px;
+            height: 150px;
+        }
+        button{
+            padding: 10px 15px;
+            font-weight: 500;
+            background:rgb(224, 208, 156);
+            border: none;
+            font-family: 'Playfair Display', serif;
+            outline: none;
+            cursor: pointer;
+            &:hover{
+                background:rgb(226, 212, 164);
+            }
+            &:active{
+                background:rgb(224, 208, 156);
+            }
+        }
+    }
+       
+}
