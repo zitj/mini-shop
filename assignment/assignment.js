@@ -11,7 +11,7 @@ class Course {
     }
 
     courseValue(){
-        console.log(this.price / this.length  + ' marke po satu');
+        console.log('Value of this course is ' + (this.price / this.length).toFixed(2)  + ' marke po satu');
     }
 
     courseSummary(){
@@ -20,7 +20,29 @@ class Course {
 
 }
 
-const angularCourse = new Course('Angular', 33.40, 200);
-const reactCourse = new Course('React', 28.00, 80 ); 
+class PracticalCourse extends Course{
+    constructor(title, length, price, numOfExcercises){
+        super(title, length, price);
+        this.numOfExcercises = numOfExcercises;
+    }
+    courseSummary(){
+        console.log(` Course name: ${this.title} \n Course length: ${this.length} hours \n Course price: ${this.price} marke \n Number of excercises: ${this.numOfExcercises}`);
+    }
+}
+class TheoreticalCourse extends PracticalCourse{
+    constructor(title, length, price, numOfExcercises){
+        super(title, length, price, numOfExcercises);
+        
+    }
+    publish(){
+        console.log(`This is the theoretical part of the ${this.title} course!`);
+    }
+}
 
-console.log(reactCourse.courseSummary());
+
+const angularCourse = new TheoreticalCourse('Angular', 33.40, 200, 432);
+const reactCourse = new TheoreticalCourse('React', 28.00, 80, 212); 
+
+angularCourse.courseSummary();
+angularCourse.courseValue();
+angularCourse.publish();
