@@ -19,9 +19,14 @@ class ElementAttribute{
 }
 class Component{
 
-    constructor(renderHook){
+    constructor(renderHook, shouldRender = true){
         this.hookId = renderHook;
+        if(shouldRender){
+            this.render();
+        }
     }
+
+    render(){}
 
     createRootElement(tag, cssClasses, attributes){
         const rootElement = document.createElement(tag);
@@ -76,8 +81,9 @@ class ShoppingCart extends Component {
 
 class ProductItem extends Component {
     constructor(product, renderHookId){
-        super(renderHookId);
+        super(renderHookId, false);
         this.product = product;
+        this.render();
     }
 
 
@@ -106,41 +112,52 @@ class ProductItem extends Component {
 }
 
 class ProductList extends Component{
-    products = [
-        new Product(
-        'Sneakers',
-        'https://ae01.alicdn.com/kf/HTB1Gu5fXXzsK1Rjy1Xbq6xOaFXaN/FEOZYZ-Genuine-Leather-Running-Shoes-Women-Trendy-Vintage-Sneakers-Women-Designer-Sport-Shoes-Woman-2018-Black.jpg_q50.jpg',
-        'Trendy sneakers',
-        49.99 
-        ),
-        
-        new Product(
-        'Socks',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSHIkG2MDsBKdGZZNR8nbuIeZuCCw72zwBYrg&usqp=CAU',
-        'Trendy socks with sick pattern',    
-         5.99,
-        )
-    ];
+    products = [];
     constructor(renderHookId){
         super(renderHookId);
+        this.fetchProducts();
     }
+        fetchProducts() {
+            this.products = [
+                new Product(
+                    'Sneakers',
+                    'https://ae01.alicdn.com/kf/HTB1Gu5fXXzsK1Rjy1Xbq6xOaFXaN/FEOZYZ-Genuine-Leather-Running-Shoes-Women-Trendy-Vintage-Sneakers-Women-Designer-Sport-Shoes-Woman-2018-Black.jpg_q50.jpg',
+                    'Trendy sneakers',
+                    49.99 
+                    ),
+                    
+                    new Product(
+                    'Socks',
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSHIkG2MDsBKdGZZNR8nbuIeZuCCw72zwBYrg&usqp=CAU',
+                    'Trendy socks with sick pattern',    
+                     5.99,
+                    )
+            ];
+            this.renderProducts();
+        }
     
-    render(){
-        const prodList = this.createRootElement('ul', 'product-list', [new ElementAttribute('id', 'prod-list')]);
-
+    renderProducts(){
         for(const prod of this.products) {
-            const productItem = new ProductItem(prod, 'prod-list');
-            productItem.render();
+            new ProductItem(prod, 'prod-list');
+        }
+    }        
+
+    render(){
+        this.createRootElement('ul', 'product-list', [new ElementAttribute('id', 'prod-list')]);
+        if(this.products && this.products.length > 0){
+            this.renderProducts();
         }
     }
 }
 
-class Shop {
+class Shop{
+    constructor(){
+        this.render();
+    }
+
     render(){
      this.cart = new ShoppingCart('app');
-     this.cart.render();   
-     const productList = new ProductList('app');
-     productList.render();
+     new ProductList('app');
     }
 }
 
@@ -148,7 +165,6 @@ class App {
     static cart;
     static init(){
         const shop = new Shop();
-        shop.render();
         this.cart = shop.cart;
     }
 
