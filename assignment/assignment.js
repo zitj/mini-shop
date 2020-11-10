@@ -1,41 +1,42 @@
 
 class Course {
-    title = 'DEFAULT';
-    length;
-    price;
-    
-    constructor(title, length, price){
-        this.title = title;
-        this.length = length;
-        this.price = price;
+
+    #price;
+
+    get price(){
+        return  this.#price + ' marke';
+    }
+    set price(value){
+        if(value < 0){
+            throw 'Invalid value!';
+        }
+        this.#price = value;
+    }
+
+    constructor(courseTitle, courseLength, coursePrice){
+        this.title = courseTitle;
+        this.length = courseLength;
+        this.price = coursePrice;
     }
 
     courseValue(){
-        console.log('Value of this course is ' + (this.price / this.length).toFixed(2)  + ' marke po satu');
-    }
-
-    courseSummary(){
-        console.log(` Course name: ${this.title} \n Course length: ${this.length} hours \n Course price: ${this.price} marke`);
+        console.log(' Value of this course is ' + (this.#price / this.length).toFixed(2)  + ' marke po satu');
     }
 
 }
 
 class PracticalCourse extends Course{
-    constructor(title, length, price, numOfExcercises){
+    constructor(title, length, price, excercisesCount){
         super(title, length, price);
-        this.numOfExcercises = numOfExcercises;
+        this.numOfExcercises = excercisesCount;
     }
     courseSummary(){
-        console.log(` Course name: ${this.title} \n Course length: ${this.length} hours \n Course price: ${this.price} marke \n Number of excercises: ${this.numOfExcercises}`);
+        console.log(` Course name: ${this.title} \n Course length: ${this.length} hours \n Course price: ${this.price} \n Number of excercises: ${this.numOfExcercises}`);
     }
 }
 class TheoreticalCourse extends PracticalCourse{
-    constructor(title, length, price, numOfExcercises){
-        super(title, length, price, numOfExcercises);
-        
-    }
     publish(){
-        console.log(`This is the theoretical part of the ${this.title} course!`);
+        console.log(` This is the theoretical part of the ${this.title} course!`);
     }
 }
 
